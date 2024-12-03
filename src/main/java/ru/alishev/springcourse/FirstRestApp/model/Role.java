@@ -1,17 +1,21 @@
-package ru.alishev.springcourse.FirstRestApp.models;
-
-//import org.springframework.security.core.GrantedAuthority;
+package ru.alishev.springcourse.FirstRestApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.List;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "roles")
-//public class Role implements GrantedAuthority {
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +30,12 @@ public class Role {
     public Role() {
     }
 
-    public Role(String roleName) {
+    public Role(Long id) {
+        this.id = id;
+    }
+
+    public Role(Long id, String roleName) {
+        this.id = id;
         this.roleName = roleName;
     }
 
@@ -46,6 +55,7 @@ public class Role {
         this.roleName = roleName;
     }
 
+
     public List<User> getUsers() {
         return users;
     }
@@ -54,10 +64,10 @@ public class Role {
         this.users = users;
     }
 
-//    @Override
-//    public String getAuthority() {
-//        return roleName;
-//    }
+    @Override
+    public String getAuthority() {
+        return roleName;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -70,10 +80,5 @@ public class Role {
     @Override
     public int hashCode() {
         return Objects.hash(id, roleName);
-    }
-
-    @Override
-    public String toString() {
-        return roleName;
     }
 }
